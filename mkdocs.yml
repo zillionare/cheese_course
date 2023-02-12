@@ -1,19 +1,11 @@
-site_name: cheese course
+site_name: 量化芝识
 # site_url: http://www.jieyu.ai
 repo_url: https://github.com/zillionare/cheese_course
 repo_name: cheese_course
 #strict: true
-nav:
-  - home: index.md
-  - installation: installation.md
-  - usage: usage.md
-  - modules: api.md
-  - contributing: contributing.md
-  - authors: authors.md
-  - history: history.md
 theme:
   name: material
-  language: en
+  language: zh
   #logo: assets/logo.png
   palette:
     - media: "(prefers-color-scheme: light)"
@@ -31,6 +23,12 @@ theme:
     - navigation.tabs
     - navigation.instant
     - navigation.tabs.sticky
+    - header.autohide
+    - navigation.top
+    - toc.follow
+    - toc.integrate
+    - content.code.copy
+    - content.code.annotate
 markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
@@ -49,6 +47,7 @@ markdown_extensions:
   - pymdownx.details
   - admonition
   - toc:
+      toc_depth: 5
       baselevel: 2
       permalink: true
       slugify: !!python/name:pymdownx.slugs.uslugify
@@ -60,6 +59,7 @@ plugins:
   - mkdocstrings:
       watch:
         - cheese_course
+  - awesome-pages
 extra:
   version:
     provider: mike

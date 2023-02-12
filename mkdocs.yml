@@ -56,9 +56,6 @@ plugins:
   - include-markdown
   - search:
       lang: en
-  - mkdocstrings:
-      watch:
-        - cheese_course
   - awesome-pages
 extra:
   version:

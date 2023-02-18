@@ -522,6 +522,22 @@ url = "https://mirrors.aliyun.com/pypi/simple"
 reference = "ali"
 
 [[package]]
+name = "cheese"
+version = "0.1.0"
+description = "My first Python package using cookiecutter."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "cheese-0.1.0.tar.gz", hash = "sha256:5a5b7df16e948e76a8ee9c44e59c3c81902307ddf7da1a0dfe14bda13ccbb8b1"},
+]
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.aliyun.com/pypi/simple"
+reference = "ali"
+
+[[package]]
 name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
@@ -3965,4 +3981,4 @@ test = ["pytest", "black", "isort", "flake8", "flake8-docstrings", "pytest-cov"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0"
-content-hash = "021c8b1d7e02999dd51cf2a38a44e9a0cc8755687afd778e51b9e709ebe2b405"
+content-hash = "c6cd27d2f09d70319fff9d62a67a30a6c9380839bc9332d321e2f3bc86c8d430"

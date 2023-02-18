@@ -64,9 +64,7 @@ yfinance是一个Python库，它可以用来获取Yahoo Finance的数据，包�
 $ pip install yfinance
 ```
 
-yfinance可以用来获取全球市场的数据，包括美国、加拿大、欧洲、亚洲等地的股票和其他金融产品，但是在中国A股市场上的数据可能会有限制，因为Yahoo Finance可能无法获得中国A股市场的数据许可。
-
-如果您希望获取中国A股市场的数据，建议使用其他数据提供商的API，如tushare等，或者从A股市场的官方网站上获取数据。
+yfinance可以用来获取全球市场的数据，包括美国、加拿大、欧洲、亚洲等地的股票和其他金融产品，但是从2021年11月起，中国大陆用户已不能使用yfinance。这里介绍它，只是作为一个参考，以防学员需要使用其它地区的金融数据。
 
 下面是使用yfinance来获取股价的一个例子：
 ```python
@@ -78,6 +76,36 @@ msft_history = msft.history(period="max")
 print(msft_history)
 ```
 上述代码中，我们通过yf.Ticker函数指定了要获取的股票，这里以微软公司（MSFT）为例。然后，我们调用history方法来获取该股票的历史价格数据，使用period="max"表示获取该股票的所有历史数据。
+
+## tushare
+Tushare是一个提供股票、期货、基金等金融数据的Python库。要使用Tushare获取A股数据，您需要首先安装Tushare库，并在Tushare官网注册一个账号以获取Token，这个Token用于验证您的数据访问权限。
+
+以下是一个简单的示例，用于获取某只股票的历史价格数据：
+```python
+import tushare as ts
+import os
+
+# 在Tushare官网注册并获取token
+token = os.environ.get("tushare_token")
+ts.set_token('your_token')
+
+# 初始化pro接口
+pro = ts.pro_api()
+
+# 获取某只股票的历史价格数据
+df = pro.daily(ts_code='000001.SZ', start_date='20190101', end_date='20220218')
+
+# 打印历史价格数据
+print(df)
+```
+在上面的代码中，我们首先通过调用ts.set_token()函数设置Tushare的Token，以验证我们的数据访问权限。然后，我们初始化Tushare的pro接口，以便进行数据访问。接着，我们调用pro.daily()函数，用于获取某只股票（000001.SZ）的历史价格数据，包括起始日期和结束日期。最后，我们将数据打印出来。
+
+请注意，上述代码中的股票代码为000001.SZ，代表中国A股市场上的上证指数，而非某只个股。如果要获取其他个股的历史价格数据，您需要将ts_code参数替换为相应的股票代码，例如“600519.SH”代表贵州茅台股票。
+
+除了获取历史价格数据之外，Tushare还提供了许多其他的数据访问接口，包括公司财务数据、基金数据、宏观经济数据等等。您可以参考Tushare文档了解更多信息。
+
+
+
 
 [^first_8]: A股最早发行的一批股票共8支，被称为老八股，是1990年12月在上海交易所上市的。这八股当中，两股已经退市(600656，原浙江凤凰和600652，原爱使股份，两股当前被ST（600601，方正科技和600654，飞乐股份）。
 

@@ -52,7 +52,8 @@ mkdocs-awesome-pages-plugin = "^2.8.0"
 notedown = "^1.5.1"
 ipykernel = "^6.21.2"
 akshare = "^1.8.84"
-cheese = "^0.1.0"
+yfinance = "^0.2.12"
+tushare = "^1.2.89"
 
 [tool.poetry.extras]
 test = [

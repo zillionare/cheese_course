@@ -54,6 +54,7 @@ ipykernel = "^6.21.2"
 akshare = "^1.8.84"
 yfinance = "^0.2.12"
 tushare = "^1.2.89"
+jqdatasdk = "^1.8.11"
 
 [tool.poetry.extras]
 test = [

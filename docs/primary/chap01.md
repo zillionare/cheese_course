@@ -98,34 +98,14 @@ Akshare轻量、免注册，还能获取实时价格数据。由于数据直接�
 3. akshre发出网络请求时，是以同步调用的方式进行的，可以改为异步调用以优化性能。
 4. akshare的api设计中，绑定了服务器的指定。其实对普通用户来讲，我们只关心能否快速、精准地获取数据，不关心数据来自于哪个服务器。不仅如此，如果现在的这些服务器将来不能用了，要使用新的服务器，这也会使得我们必须修改自己的策略代码。因此，建议大家在使用akshare时，自己先进行一些封装和修改，再在策略里调用自己的封装包，以便即使akshare的一些API被弃用了，也不用改我们的策略代码，只用将接口实现改一下就好了。
 
-## 2. yfinance
-
-yfinance是一个Python库，它可以用来获取Yahoo Finance的数据，包括股票、ETF、指数、期货等多种金融产品的历史价格和相关信息。在使用yfinance之前，需要先安装该库，可以使用pip命令来安装：
-```
-$ pip install yfinance
-```
-
-yfinance可以用来获取全球市场的数据，包括美国、加拿大、欧洲、亚洲等地的股票和其他金融产品，但是从2021年11月起，中国大陆用户已不能使用yfinance。这里介绍它，只是作为一个参考，以防学员需要使用其它地区的金融数据。
-
-下面是使用yfinance来获取股价的一个例子：
-```python
-import yfinance as yf
-
-# 获取某只股票的历史价格数据
-msft = yf.Ticker("MSFT")
-msft_history = msft.history(period="max")
-print(msft_history)
-```
-上述代码中，我们通过yf.Ticker函数指定了要获取的股票，这里以微软公司（MSFT）为例。然后，我们调用history方法来获取该股票的历史价格数据，使用period="max"表示获取该股票的所有历史数据。
-
-## 3. tushare
-Tushare是一个提供股票、期货、基金等金融数据的Python库。要使用Tushare获取A股数据，您需要首先安装Tushare库，并在Tushare官网注册一个账号以获取Token，这个Token用于验证您的数据访问权限。
+## 2. tushare
+Tushare是一个提供股票、期货、基金等金融数据的Python库。要使用Tushare获取A股数据，您需要首先安装Tushare库，并在Tushare[^tushare]官网注册一个账号以获取Token，这个Token用于验证您的数据访问权限。
 
 在tushare中，如果某个调用需要传入交易所代码参数，一般使用SSE指代上交所，SZSE指代深交所，BSE指代北交所，HKEX指代港交所。对应地，其股票规范码的后缀则是.SH, .SZ, .BJ和.HK。
 
 tushare暂时没有在盘中提供实时数据。它所提供的数据，除了数字货币之外，都是盘后数据。
 
-### 3.2. 股票历史数据
+### 2.1. 股票历史数据
 以下是一个简单的示例，用于获取某只股票的历史价格数据：
 ```python
 import tushare as ts
@@ -147,19 +127,193 @@ print(df[:10])
 在上面的代码中，我们首先通过调用ts.set_token()函数设置Tushare的Token，以验证我们的数据访问权限。然后，我们初始化Tushare的pro接口，以便进行数据访问。接着，我们调用pro.daily()函数，用于获取某只股票（000001.SZ）的历史价格数据，包括起始日期和结束日期。最后，我们将数据打印出来。
 
 这里我们看到了另一种交易所代码表示方式。在tushare里，上交所的代码后缀是.SH，深交所的代码后缀是.SZ，北交所的代码后缀是.BJ。tushare还能提供港交所的数据，它的后缀是.HK。
+### 2.2. 证券列表
+我们通过stock_basic来获取证券列表。
+```python
+import tushare as ts
+import os
+
+# 在Tushare官网注册并获取token
+token = os.environ.get("tushare_token")
+ts.set_token(token)
+
+# 初始化pro接口
+pro = ts.pro_api()
+
+df = pro.stock_basic(exchange='', list_status='L', fields='ts_code,symbol,name,area,industry,list_date')
+print(df[:10])
+```
+输出字段包括了规范代码、简码、名称、地区、行业和上市日期。此外，还支持获取其拼音缩写、市场类型（主板/创业板、科创板）、是否沪深港通标的等字段。
+
+### 2.3. 交易日历
+tushare的交易日历返回的是自然日历，但在日期后面通过is_open进行了标注。此外，它还支持按起始日期进行查询：
+
+```python
+import tushare as ts
+import os
+
+# 在Tushare官网注册并获取token
+token = os.environ.get("tushare_token")
+ts.set_token(token)
+
+# 初始化pro接口
+pro = ts.pro_api()
+
+# 获取某只股票的历史价格数据
+pro.trade_cal(exchange='', start_date='20180101', end_date='20250101')
+```
+上述查询返回了一个自然日历，不过在每一行中，通过is_open来显示该日是否为交易日。tushare这样做，可能在一定程度上减轻调用都后续计算的工作量。不过，关系到交易日历的计算十分复杂，我们必须使用专门的库才行。
+
+tushare是一个老牌的数据服务提供商。起初完全免费，后来升级到pro版本后，开始使用积分制。用户反馈较多的可能也是这个积分制。它的积分体系比较复杂。一个注册的新用户，会有100积分，拥有获取股票日线的权限，但如果要获取证券列表，则需要120积分。权限粒度过细，会导致用户体验下降。尽管如此，它仍然是一个优秀的、可获得的数据源。
+
+## 聚宽本地数据
+
+聚宽[^joinquant]是相对于tushare更贵的选择，它的价格在逐年攀升，免费试用期[^free_trial]也在逐年减少。当前应该是给用户提供了3个月的试用期[^free_trial]。一个合用的授权版本大概是6999元每年。不过它的数据质量和服务不错。
+
+按照官方文档，聚宽并不提供实时数据，但目前我们仍能在盘获取粒度低至一分钟的准实时数据。不过，使用者应该尽早排除对这种非官方支持的数据调用的依赖。
+
+聚宽通过jqdatasdk向用户提供本地数据[^jqdata]，这是一个python的SDK。我们通过以下命令来安装使用jqdatasdk：
+
+```
+$ pip install jqdatasdk
+```
+我们在使用它之前，需要登录聚宽的主页申请使用，然后进行认证和获得授权。
+```python
+import jqdatasdk as jq
+import os
+
+account = os.environ.get("jq_account")
+password = os.environ.get("jq_password")
+
+jq.auth(account, password)
+quota = jq.get_query_count()
+print(quota)
+
+jq.logout()
+```
+如果认证成功，就会打印出auth success。注意jqdatasdk对同时登录的会话数有要求，如果当前使用完成，最好调用jq.logout来退出，以释放会话。
+
+我们还要注意在购买聚宽的数据时，它有一个每日使用的quota限制[^jq_quota]，一旦超出这个限制，当日将不能继续使用。
+
+在聚宽中，上交所的代码是.XSHG，深交所的代码是.XSHE。我们可以按照这个规则来拼出股票和指数的规范代码。
+
+### 股票历史数据
+
+我们可以使用get_price与get_bars两个API[^jq_diff][^pitfalls]来获得股票的历史数据。这里我们仅以get_bars为例来演示其用法：
+```python
+import jqdatasdk as jq
+import os
+
+account = os.environ.get("jq_account")
+password = os.environ.get("jq_password")
+
+jq.auth(account, password)
+quota = jq.get_query_count()
+spare= quota.get('spare')
+bars = jq.get_bars("000001.XSHE", 250, unit='1d',
+             fields=('date', 'open', 'high', 'low', 'close', 'volume', 'money', 'factor'),
+             include_now=False,
+             end_dt=None,
+             fq_ref_date=None,
+             df=False)
+
+print(bars[:10])
+quota = jq.get_query_count()
+print("消耗的流量为:", spare - quota.get('spare'))
+jq.logout()
+```
+返回的数据将包括记录所属的时间、开盘价、最高价、最低价、收盘价、成交量（以股为单位）、成交金额（以元为单位）和复权因子。上述查询，消耗了250条流量。
+
+输入参数中，"000001.XSHE"是证券标的，250在这里是要获取的记录数，unit是指记录的时间周期，比如是日线、周线这样日线级别的周期，还是象1分钟，30分钟这样的分钟级别的周期。
+
+如果当天是交易日，我们在盘中获取某支标的的当日行情数据，此时jqdatasdk会面临两个选择，是返回截止到当前的日线数据呢，还是返回截止到上一个成交日收盘时的行情数据呢？这就是include_now这个参数的意义，它告诉jqdata_sdk应该如何返回数据。
+
+end_dt是指我们请求的数据，将截止到哪一天。如果不传入，则会获取到调用时（如果是非交易时间，则是上一个收盘时间）。
+
+fq_ref_date告诉jqdatasdk如何处理复权。如果不提供这个参数，则返回的数据将不会复权。如果提供了这个日期，则在日期之前，相当于前复权，在日期之后，相当于后复权。这是与其它库不一样的地方。
+
 ### 证券列表
+在聚宽中，获取证券列表的函数是get_all_securities[^pitfalls]。
+```python
+import jqdatasdk as jq
+import os
+
+account = os.environ.get("jq_account")
+password = os.environ.get("jq_password")
+
+jq.auth(account, password)
+quota = jq.get_query_count()
+spare= quota.get('spare')
+bars = jq.get_all_securities()
+
+print(bars[:10])
+quota = jq.get_query_count()
+print("消耗的流量为:", spare - quota.get('spare'))
+jq.logout()
+```
+查询返回了5000多条记录。返回的记录包含了字段中文名称（如平安银行）、缩写简称（如PAYH）、上市日期、退市日期和证券类型（如stock, index, futures等）。返回的记录种类跟账户的权限相关。
+
 ### 交易日历
+我们通过get_trade_days这个API来获取指定时间范围内的交易日历，使用get_all_trade_days这个API来获取所有交易日历。
+```python
+import jqdatasdk as jq
+import os
+
+account = os.environ.get("jq_account")
+password = os.environ.get("jq_password")
+
+jq.auth(account, password)
+quota = jq.get_query_count()
+spare= quota.get('spare')
+calendar = jq.get_trade_days(count=10)
+
+print(calendar)
+
+calendar = jq.get_all_trade_days()
+
+print(calendar[-10:])
+quota = jq.get_query_count()
+print("消耗的流量为:", spare - quota.get('spare'))
+jq.logout()
+```
+
+## 3. yfinance
+
+yfinance是一个Python库，它可以用来获取Yahoo Finance的数据，包括股票、ETF、指数、期货等多种金融产品的历史价格和相关信息。在使用yfinance之前，需要先安装该库，可以使用pip命令来安装：
+```
+$ pip install yfinance
+```
+
+yfinance可以用来获取全球市场的数据，包括美国、加拿大、欧洲、亚洲等地的股票和其他金融产品，但是从2021年11月起，中国大陆用户已不能使用yfinance。这里介绍它，只是作为一个参考，以防学员需要使用其它地区的金融数据。
+
+下面是使用yfinance来获取股价的一个例子：
+```python
+import yfinance as yf
+
+# 获取某只股票的历史价格数据
+msft = yf.Ticker("MSFT")
+msft_history = msft.history(period="max")
+print(msft_history)
+```
+上述代码中，我们通过yf.Ticker函数指定了要获取的股票，这里以微软公司（MSFT）为例。然后，我们调用history方法来获取该股票的历史价格数据，使用period="max"表示获取该股票的所有历史数据。
+
 
 
 [^first_8]: A股最早发行的一批股票共8支，被称为老八股，是1990年12月在上海交易所上市的。这八股当中，两股已经退市(600656，原浙江凤凰和600652，原爱使股份，两股当前被ST（600601，方正科技和600654，飞乐股份）。
 
 [^sfz]: 深发展1991年上市日开盘价为65.74，当前（2023年2月17日）后复权收盘价为2492元。作为二级市场投资者，如果您在32年前以开盘价买入，到现在为止上涨37倍，年化12%。作为二级市场的投资者，这个收益您还满意吗？
 
-[^fq]: 由于股票存在配股、分拆、合并和发放股息等事件，会导致股价出现较大的缺口。 若使用不复权的价格处理数据、计算各种指标，将会导致它们失去连续性，且使用不复权价格计算收益也会出现错误。 为了保证数据连贯性，常通过前复权和后复权对价格序列进行调整。
+[^akshare]: akshare的文档在 https://akshare.xyz/ 
 
-    前复权：保持当前价格不变，将历史价格进行增减，从而使股价连续。 前复权用来看盘非常方便，能一眼看出股价的历史走势，叠加各种技术指标也比较顺畅，是各种行情软件默认的复权方式。 这种方法虽然很常见，但也有两个缺陷需要注意。
+[^fq]: 由于股票存在配股、分拆、合并和发放股息等事件，会导致股价出现较大的缺口。 若使用不复权的价格处理数据、计算各种指标，将会导致它们失去连续性，且使用不复权价格计算收益也会出现错误。 为了保证数据连贯性，常通过前复权和后复权对价格序列进行调整。<br>前复权：保持当前价格不变，将历史价格进行增减，从而使股价连续。 前复权用来看盘非常方便，能一眼看出股价的历史走势，叠加各种技术指标也比较顺畅，是各种行情软件默认的复权方式。 这种方法虽然很常见，但也有两个缺陷需要注意。<br>为了保证当前价格不变，每次股票除权除息，均需要重新调整历史价格，因此其历史价格是时变的。 这会导致在不同时点看到的历史前复权价可能出现差异。<br>对于有持续分红的公司来说，前复权价可能出现负值。<br>后复权：保证历史价格不变，在每次股票权益事件发生后，调整当前的股票价格。 后复权价格和真实股票价格可能差别较大，不适合用来看盘。 其优点在于，可以被看作投资者的长期财富增长曲线，反映投资者的真实收益率情况。
 
-    为了保证当前价格不变，每次股票除权除息，均需要重新调整历史价格，因此其历史价格是时变的。 这会导致在不同时点看到的历史前复权价可能出现差异。
-    对于有持续分红的公司来说，前复权价可能出现负值。
+[^tushare]: tushare的主页是 https://tushare.pro/，开发者人称米哥。
 
-    后复权：保证历史价格不变，在每次股票权益事件发生后，调整当前的股票价格。 后复权价格和真实股票价格可能差别较大，不适合用来看盘。 其优点在于，可以被看作投资者的长期财富增长曲线，反映投资者的真实收益率情况。
+[^joinquant]: 聚宽的主页是 https://www.joinquant.com/。作为聚宽数据的使用者，对他们的服务有较深的印象。他们的客服会及时响应用户提出的数据相关问题，不管是晚上还是周末。
+[^free_trial]: 最初聚宽提供了一年的免费试用，后来逐渐缩减到半年和三个月。三个月试用期对新人来说可能过短。此外，试用版还只能获取近一年的数据，这对实际的策略回测也是远远不够的。
+
+[^jqdata]: 这里的本地数据是聚宽的提法，是相对于通过聚宽在线平台而言的。但是，我们在使用时，这些数据仍然是从聚宽服务器上实时获取的。因此，获取的速度取决于网络延时和聚宽服务器的处理能力。
+
+[^jq_diff]: 这两个API虽然都能用于获取数据，但在用法和返回结果上有微妙的区别。get_price可以额外获取涨跌停价、是否停牌、前一天收盘价信息等。在复权处理上，get_price默认使用前复权，get_bars使用不复权。get_price只使用起始时间来进行查询，而get_bars还可以指定要获取的记录条数。此外，还有一些差别，请学员在使用前，仔细阅读https://www.joinquant.com/help/api/doc?name=JQDatadoc&id=10278。
+
+[^pitfalls]: 此处有坑，请老师提醒学员可以加老师微信请教，没必要自己花太多时间去趟这些坑。我们开设这门课，一是要帮学员理清知识体系，二是要帮学员避开这些坑，减少时间浪费。这也是这门课的意义所在。

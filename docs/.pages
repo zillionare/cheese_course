@@ -1,5 +1,5 @@
 nav:
-    - 量化ABC: the_ABCs
+    - 量化入门: primary
     - 动量策略: momentum
     - 每日一剂Python: python_tricks
     - 我该怎么做: python_know_how

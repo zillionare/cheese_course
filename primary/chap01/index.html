@@ -373,19 +373,80 @@
     1. Akshare
   </a>
   
+    <nav class="md-nav" aria-label="1. Akshare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-交易所及证券代码" class="md-nav__link">
+    1.1. 交易所及证券代码
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-获取实时股票数据" class="md-nav__link">
+    1.2. 获取实时股票数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-获取股票历史数据" class="md-nav__link">
+    1.3. 获取股票历史数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-获取证券列表" class="md-nav__link">
+    1.4. 获取证券列表
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-交易日历" class="md-nav__link">
+    1.5. 交易日历
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#yfinance" class="md-nav__link">
-    yfinance
+  <a href="#2-yfinance" class="md-nav__link">
+    2. yfinance
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#tushare" class="md-nav__link">
-    tushare
+  <a href="#3-tushare" class="md-nav__link">
+    3. tushare
   </a>
+  
+    <nav class="md-nav" aria-label="3. tushare">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-实时股票数据" class="md-nav__link">
+    3.1. 实时股票数据
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-股票的历史数据" class="md-nav__link">
+    3.2. 股票的历史数据
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -515,7 +576,7 @@ Akshare是一个Python库，我们使用pip来安装：
 </code></pre></div></td></tr></table></div>
 akshare是免费数据，也无须注册账号。所以我们现在就可以使用它来获取沪深A股的行情数据了。</p>
 <p>在此之前，我们先介绍一点必备的基础知识，这是我们获取数据所必须要知道的。</p>
-<p><strong>老师：我们在网上找到的量化投资的相关课程，可能都不会介绍这些内容。因为这些内容已经超出了技术范围，还需要课程开发者有丰富的交易经验。</strong></p>
+<h4 id="11-交易所及证券代码">1.1. 交易所及证券代码<a class="headerlink" href="#11-交易所及证券代码" title="Permanent link">&para;</a></h4>
 <p>从获取数据的角度看，我们需要了解的是，A股有三个交易所，即上交所、深交所和北交所。上交所成立最早，其下有主板和科创板；深交所次之，它下面有主板、中小板和创业板三个板块；北交所则刚刚成立一年多。</p>
 <p>设立多个板块的原因，是因为资本市场需要为不同成长风格的企业都能提供融资，这也是世界范围内证券交易所的常态，比如我们熟知的美国市场，纳斯达克交易所就以接纳全球高科技企业融资为主，类似于我们的科创板定位。在同一个板块的所有股票，它们都有相同的起始编号，不现的板块，起始号码则各不相同。比如创业板最初是以300起头，这样只能容纳1000家中小创企业上市，所以前年起又启用了301开头的代码段。科创板则以688起头，中小板以002起头，等等。</p>
 <p>股票代码在每个交易所内的编号都是唯一的，但在不同的交易所之前，可能存在冲突的情况。所有的号码段都是为股票分配的，那么要编制指数时，应该给什么号呢？由于指数的编制机制与股票发行机制大不相同，所以，我们没法给它分配固定的号段，只能由交易所自己见机行事。因此，指数的编号就有可能与其它交易所中经营的股票品种相冲突。比如，深发展<sup id="fnref:sfz"><a class="footnote-ref" href="#fn:sfz">2</a></sup>是A股发行较早<sup id="fnref:first_8"><a class="footnote-ref" href="#fn:first_8">1</a></sup>的一支股票（现名平安银行），它的编号是000001，在深交所上市。而上交所在成立半年多后，开始编制综合指数，也使用了000001的编号，这就与深发展相冲突了。</p>
@@ -525,6 +586,7 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <p>type是指证券的类型，即是'stock'还是'index'；board or exchange这个字段对应交易所（或者板块），其取值可以是'zh'（取所有A股数据）、'sz'（取所有深证A股）、'sh'（取所有上证A股），'bj'（取所有北京交易所A股），'cy'（取所有创业板A股），'kc'（取所有科创板A股）等。</p>
 <p>第三个字段用来区分要获取的数据是实时数据，还是历史数据，我们需要在spot和hist中进行选择。</p>
 <p>server字段可以为空（此时不需要带最后的'_')，此时表明从新浪服务器上取数据；也可以是'em'（表明从东方财富网上取数据），还可以是'tx'（表明从腾讯财经获取数据）。当然，不同的服务器，它们能提供的数据品种可能有所区别。</p>
+<h4 id="12-获取实时股票数据">1.2. 获取实时股票数据<a class="headerlink" href="#12-获取实时股票数据" title="Permanent link">&para;</a></h4>
 <p>下面，我们就以获取创业板实时股票数据为例演示一下。根据上面的介绍，这个api应该是stock_cy_a_spot：</p>
 <p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -544,14 +606,49 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <span class="n">bars</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
 现在我们看到了10股票的最新价格数据。</p>
-<p>Akshare还提供了许多其它数据。它轻量、免注册，还能获取实时价格数据。不过，如果我们要在正式产品中使用akshare的话，还要注意以下问题：</p>
+<h4 id="13-获取股票历史数据">1.3. 获取股票历史数据<a class="headerlink" href="#13-获取股票历史数据" title="Permanent link">&para;</a></h4>
+<p>在上一节，我们已经熟悉了akshare的API风格。获取股票历史数据的api与获取实时数据的类似，区别在于，我们需要将'spot'换成'hist'，并且还需要传入一些参数。</p>
+<p>比如，我们要获取'603777'这支股票在2022年下半年的日线数据：
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">akshare</span> <span class="k">as</span> <span class="nn">ak</span>
+
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_zh_a_hist</span><span class="p">(</span><span class="s1">&#39;603777&#39;</span><span class="p">,</span> <span class="s1">&#39;daily&#39;</span><span class="p">,</span> <span class="s1">&#39;20220701&#39;</span><span class="p">,</span> <span class="s1">&#39;20221231&#39;</span><span class="p">,</span> <span class="n">adjust</span><span class="o">=</span><span class="s1">&#39;qfq&#39;</span><span class="p">)</span>
+<span class="n">bars</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:]</span>
+</code></pre></div></td></tr></table></div>
+这里的参数依次是股票简码、周期类型、起始日期和复权方式。周期类型支持'daily'（日线），'weekly'（周线）, 'monthly'（月线）。复权方式<sup id="fnref:fq"><a class="footnote-ref" href="#fn:fq">3</a></sup>支持前复权（'qfq')和后复权（'hfq'）。如果需要未复权的原始价格，则可省略此参数。</p>
+<h4 id="14-获取证券列表">1.4. 获取证券列表<a class="headerlink" href="#14-获取证券列表" title="Permanent link">&para;</a></h4>
+<p>我们在获取股票历史数据时，已经接触到了具体的股票代码。要记住所有的代码几乎不可能，因为现在A股股票已经到了5000支左右的规模。我们需要一个索引，或者证券列表，可以让我们查询股票的代码、名字、上市日期等基本信息。</p>
+<p>这个API就是<code>stock_info_{sh|sz|bj}_name_code</code>。中间的字段是交易所的代码。</p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">akshare</span> <span class="k">as</span> <span class="nn">ak</span>
+
+<span class="n">ak</span><span class="o">.</span><span class="n">stock_info_sh_name_code</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+这会返回一个DataFrame，共有'公司代码', '公司简称', '公司全称', '上市日期'等四列数据。如果我们将交易所代码替换成'sz'或者'bj'，则会得到总股本、流通股本、所属行业、地区、报告日期等额外五列数据。同样类型的请求，返回结果在字段上不一致，这会带来策略使用上的一些不便。</p>
+<h4 id="15-交易日历">1.5. 交易日历<a class="headerlink" href="#15-交易日历" title="Permanent link">&para;</a></h4>
+<p>交易日历在量化中起到非常重要的作用。比如，我们要取截止<code>end</code>日期的250根K线数据。如果使用的API只支持按起始日期来获取数据，那么我们将不得不自己来计算这个起始日期。而这个计算，我们不能依赖自然日历。此外，有了交易日历，一些后台任务也才能合理的规划。比如，如果这一周只交易到周三，那么对于机构来说，一般就应该在周三交易结束之后，进行周线级别的策略分析，而不是等到周六。</p>
+<p>我们可以这样获取交易日历:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">akshare</span> <span class="k">as</span> <span class="nn">ak</span>
+
+<span class="n">calendar</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">tool_trade_date_hist_sina</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;日历起始日：</span><span class="si">{</span><span class="n">calendar</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">日历截止日：</span><span class="si">{</span><span class="n">calendar</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+在我们编写这门课的时候，上述代码运行将输出1990-12-19和2023-12-29这样两个日期。</p>
+<p>Akshare还提供了许多其它数据，比如象全市场市盈率这样比较重要的择时数据，不过，这些不属于基础内容，我们在这里就不展开。这些内容及数据的使用，我们将在高级课程中提供。</p>
+<p>Akshare轻量、免注册，还能获取实时价格数据。由于数据直接来源于大的财经网站，因此准确度也较高，这也是我们推荐它的原因。不过，如果我们要在正式产品中使用akshare的话，也要注意以下问题：</p>
 <ol>
-<li>服务器会对爬虫进行限流。我们在使用过程中，是在调用akshare失败后，采用退火算法进行延时等待。但很多初学者不太会，建议akshare官方可以实现这个功能。</li>
-<li>akshare在其代码中引入了tqdm，这是一个非常有名的进度条工具。但这个工具也引起了一些问题，即你不能在一个没有连接到终端的程序中使用它（很多后台服务都是无终端连接的）。</li>
+<li>服务器会对爬虫进行限流。在调用akshare失败后，我们需要采用退火算法进行延时等待；反之，如果我们不断重试的话，可能导致整个IP都被封掉。退火算法的实现需要一定的专业度，建议akshare官方实现这个功能。</li>
+<li>akshare在其代码中引入了tqdm，这是一个非常有名的进度条工具。但这个工具也引起了一些问题，比如你不能在一个没有连接到终端的程序中使用它（会导致异常退出）。很多后台服务都是无终端连接的，往往</li>
 <li>akshre发出网络请求时，是以同步调用的方式进行的，可以改为异步调用以优化性能。</li>
 <li>akshare的api设计中，绑定了服务器的指定。其实对普通用户来讲，我们只关注能否快速、精准地获取数据，不关心数据来自于哪个服务器。不仅如此，如果现在的这些服务器将来不能用了，要使用新的服务器，这也会使得我们必须修改自己的策略代码。因此，建议大家在使用akshare时，自己再进行一些封装和修改，以便即使akshare的一些API被弃用了，也不用改我们的策略代码，只用将接口实现改一下就好了。</li>
 </ol>
-<h3 id="yfinance">yfinance<a class="headerlink" href="#yfinance" title="Permanent link">&para;</a></h3>
+<h3 id="2-yfinance">2. yfinance<a class="headerlink" href="#2-yfinance" title="Permanent link">&para;</a></h3>
 <p>yfinance是一个Python库，它可以用来获取Yahoo Finance的数据，包括股票、ETF、指数、期货等多种金融产品的历史价格和相关信息。在使用yfinance之前，需要先安装该库，可以使用pip命令来安装：
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>$ pip install yfinance
 </code></pre></div></td></tr></table></div></p>
@@ -570,8 +667,10 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <span class="nb">print</span><span class="p">(</span><span class="n">msft_history</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 上述代码中，我们通过yf.Ticker函数指定了要获取的股票，这里以微软公司（MSFT）为例。然后，我们调用history方法来获取该股票的历史价格数据，使用period="max"表示获取该股票的所有历史数据。</p>
-<h3 id="tushare">tushare<a class="headerlink" href="#tushare" title="Permanent link">&para;</a></h3>
+<h3 id="3-tushare">3. tushare<a class="headerlink" href="#3-tushare" title="Permanent link">&para;</a></h3>
 <p>Tushare是一个提供股票、期货、基金等金融数据的Python库。要使用Tushare获取A股数据，您需要首先安装Tushare库，并在Tushare官网注册一个账号以获取Token，这个Token用于验证您的数据访问权限。</p>
+<h4 id="31-实时股票数据">3.1. 实时股票数据<a class="headerlink" href="#31-实时股票数据" title="Permanent link">&para;</a></h4>
+<h4 id="32-股票的历史数据">3.2. 股票的历史数据<a class="headerlink" href="#32-股票的历史数据" title="Permanent link">&para;</a></h4>
 <p>以下是一个简单的示例，用于获取某只股票的历史价格数据：
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -592,7 +691,7 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 
 <span class="c1"># 在Tushare官网注册并获取token</span>
 <span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tushare_token&quot;</span><span class="p">)</span>
-<span class="n">ts</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="s1">&#39;your_token&#39;</span><span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 
 <span class="c1"># 初始化pro接口</span>
 <span class="n">pro</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">pro_api</span><span class="p">()</span>
@@ -601,11 +700,10 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <span class="n">df</span> <span class="o">=</span> <span class="n">pro</span><span class="o">.</span><span class="n">daily</span><span class="p">(</span><span class="n">ts_code</span><span class="o">=</span><span class="s1">&#39;000001.SZ&#39;</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="s1">&#39;20190101&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="s1">&#39;20220218&#39;</span><span class="p">)</span>
 
 <span class="c1"># 打印历史价格数据</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 </code></pre></div></td></tr></table></div>
 在上面的代码中，我们首先通过调用ts.set_token()函数设置Tushare的Token，以验证我们的数据访问权限。然后，我们初始化Tushare的pro接口，以便进行数据访问。接着，我们调用pro.daily()函数，用于获取某只股票（000001.SZ）的历史价格数据，包括起始日期和结束日期。最后，我们将数据打印出来。</p>
-<p>请注意，上述代码中的股票代码为000001.SZ，代表中国A股市场上的上证指数，而非某只个股。如果要获取其他个股的历史价格数据，您需要将ts_code参数替换为相应的股票代码，例如“600519.SH”代表贵州茅台股票。</p>
-<p>除了获取历史价格数据之外，Tushare还提供了许多其他的数据访问接口，包括公司财务数据、基金数据、宏观经济数据等等。您可以参考Tushare文档了解更多信息。</p>
+<p>这里我们看到了另一种交易所代码表示方式。在tushare里，上交所的代码后缀是.SH，深交所的代码后缀是.SZ，北交所的代码后缀是.BJ。tushare还能提供港交所的数据，它的后缀是.HK。</p>
 <div class="footnote">
 <hr />
 <ol>
@@ -614,6 +712,13 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 </li>
 <li id="fn:sfz">
 <p>深发展1991年上市日开盘价为65.74，当前（2023年2月17日）后复权收盘价为2492元。作为二级市场投资者，如果您在32年前以开盘价买入，到现在为止上涨37倍，年化12%。作为二级市场的投资者，这个收益您还满意吗？&#160;<a class="footnote-backref" href="#fnref:sfz" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:fq">
+<p>由于股票存在配股、分拆、合并和发放股息等事件，会导致股价出现较大的缺口。 若使用不复权的价格处理数据、计算各种指标，将会导致它们失去连续性，且使用不复权价格计算收益也会出现错误。 为了保证数据连贯性，常通过前复权和后复权对价格序列进行调整。</p>
+<p>前复权：保持当前价格不变，将历史价格进行增减，从而使股价连续。 前复权用来看盘非常方便，能一眼看出股价的历史走势，叠加各种技术指标也比较顺畅，是各种行情软件默认的复权方式。 这种方法虽然很常见，但也有两个缺陷需要注意。</p>
+<p>为了保证当前价格不变，每次股票除权除息，均需要重新调整历史价格，因此其历史价格是时变的。 这会导致在不同时点看到的历史前复权价可能出现差异。
+对于有持续分红的公司来说，前复权价可能出现负值。</p>
+<p>后复权：保证历史价格不变，在每次股票权益事件发生后，调整当前的股票价格。 后复权价格和真实股票价格可能差别较大，不适合用来看盘。 其优点在于，可以被看作投资者的长期财富增长曲线，反映投资者的真实收益率情况。&#160;<a class="footnote-backref" href="#fnref:fq" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>

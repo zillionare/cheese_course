@@ -512,7 +512,7 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <p>第三个字段用来区分要获取的数据是实时数据，还是历史数据，我们需要在spot和hist中进行选择。</p>
 <p>server字段可以为空（此时不需要带最后的'_')，此时表明从新浪服务器上取数据；也可以是'em'（表明从东方财富网上取数据），还可以是'tx'（表明从腾讯财经获取数据）。当然，不同的服务器，它们能提供的数据品种可能有所区别。</p>
 <p>下面，我们就以获取创业板实时股票数据为例演示一下。根据上面的介绍，这个api应该是stock_cy_a_spot：</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">akshare</span> <span class="k">as</span> <span class="nn">ak</span>
@@ -520,6 +520,21 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <span class="n">bars</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_cy_a_spot</span><span class="p">()</span>
 <span class="n">bars</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
+运行后提示错误，在akshare中没有stock_cy_a_spot这个方法。原因是，这个方法隐含的服务器是新浪财经，但新浪财经并不提供实时数据。东方财富提供了这个数据，所以，我们应该转用stock_cy_a_spot_em这个API：
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">akshare</span> <span class="k">as</span> <span class="nn">ak</span>
+
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_cy_a_spot_em</span><span class="p">()</span>
+<span class="n">bars</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+现在我们看到了10股票的最新价格数据。</p>
+<p>Akshare还提供了许多其它数据。它轻量、免注册，还能获取实时价格数据。不过，如果我们要在正式产品中使用akshare的话，还要注意以下问题：
+1. 服务器会对爬虫进行限流。我们在使用过程中，是在调用akshare失败后，采用退火算法进行延时等待。但很多初学者不太会，建议akshare官方可以实现这个功能。
+2. akshare在其代码中引入了tqdm，这是一个非常有名的进度条工具。但这个工具也引起了一些问题，即你不能在一个没有连接到终端的程序中使用它（很多后台服务都是无终端连接的）。
+3. akshre发出网络请求时，是以同步调用的方式进行的，可以改为异步调用以优化性能。
+4. akshare的api设计中，绑定了服务器的指定。其实对普通用户来讲，我们只关注能否快速、精准地获取数据，不关心数据来自于哪个服务器。不仅如此，如果现在的这些服务器将来不能用了，要使用新的服务器，这也会使得我们必须修改自己的策略代码。因此，建议大家在使用akshare时，自己再进行一些封装和修改。</p>
 
               
             </article>

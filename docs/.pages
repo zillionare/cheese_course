@@ -2,4 +2,5 @@ nav:
     - 量化入门: primary
     - 动量策略: momentum
     - 每日一剂Python: python_tricks
-    - 我该怎么做: python_know_how
+    - 人生苦短，我用Python: python_know_how
+    - 量化物语: legends

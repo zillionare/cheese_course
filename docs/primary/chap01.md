@@ -1,7 +1,16 @@
+在量化分析中，投资者使用计算机编写程序，以历史市场数据为基础，通过模型建立和优化来判断市场趋势和进行投资决策。数据（包括行情数据、基本面数据、财务数据等等）是量化分析的基础。
 
-市场上可用的数据源中，属于券商或者大牌金融机构的有东方财富的Choice，恒生数据，掘金量化数据，Wind量化投资平台等。价格多在7万~10万/年以上。
+1990年底上交所成立时，交易是依靠红马甲喊单撮合的。每个交易日，各家券商交易员挤在一起，手中抓着标着股票代码的小纸条，用力地喊着出价。每当一家券商的交易员大喊“买入”，一群卖方交易员便紧张地挤在一起，争相抛售股票。
 
-考虑到这门课的受众是刚入门的量化爱好者，因此我们选择数据源时，要综合考虑价格、质量和易用性等多个因子。我们着重推荐这样几个数据源：
+在这个拥挤的大厅里，每个人都面带紧张的表情，眼睛紧盯着交易屏幕，寻找着最新的交易信息。而每当一只股票价格发生波动，整个交易厅就会一片骚动。有些人会立即举起手中的纸条，向交易员报价，希望能够抓住市场机会。
+
+在这个手工竞价交易的时代，每个交易员的工作都非常繁琐，需要手动记录和处理大量的数据和信息。交易员们通常需要长时间地待在交易厅里，时刻准备着应对市场的变化。这种交易方式虽然现在看来落后和低效，也无法提供量化需要的条件。
+
+A股的量化史比较明确的记载可以追溯到2005年8月，彼时嘉实元和稳健成长证券投资基金成立，主打量化投资策略。在此前后，一些券商、金融机构和软件服务商开始了相关数据的收集与整理。比如成立于1997年的万得(Wind)财经，它提供的数据涵盖了A股市场的股票、基金、债券、衍生品等多个领域，是A股市场的重要数据来源之一。随后，又出现了一批象通达信、同花顺、东方财富这样的行情软件开发商，他们也开始提供面向终端的行情数据和基于API的数据服务。
+
+上面提到的这些厂商主要服务于金融机构。随着量化热潮的兴起，出现了向个人量化开发者和中小型投资机构出售量化数据的需求。这里面代表性的产品包括pytdx，tushare, akshare, baostock, 聚宽等等。
+
+考虑到这门课的受众是刚入门的量化爱好者，因此我们选择数据源时，要综合考虑价格、质量和易用性等多个因子。我们将按照价格从低到高的顺序，为大家着重介绍一些个人投资者可以承担的产品。至于更高端的产品，您可以在精通量化策略开发，能产生稳定的收益之后，再自行接入使用。
 
 ## 1. Akshare
 AkShare是基于爬虫的财经数据接口库，目的是实现对股票、期货、期权、基金、外汇、债券、指数、数字货币等金融产品的基本面数据、实时和历史行情数据、衍生数据从数据采集、数据清洗到数据落地的一套工具。它自身没有服务器，也不存储数据，数据来源于对大型财经网站的爬取，因此会受到网站限流等反爬措施限制。
@@ -50,7 +59,7 @@ import akshare as ak
 bars = ak.stock_cy_a_spot_em()
 bars[:10]
 ```
-现在我们看到了10股票的最新价格数据。
+现在我们看到了10股票的最新价格数据。在我们的实践中，我们尝试过每5秒更新一次全A市场的最新价格，因此可以在实盘中当准实时数据来使用。
 
 ### 1.3. 股票历史数据
 在上一节，我们已经熟悉了akshare的API风格。获取股票历史数据的api与获取实时数据的类似，区别在于，我们需要将'spot'换成'hist'，并且还需要传入一些参数。
@@ -166,7 +175,7 @@ pro.trade_cal(exchange='', start_date='20180101', end_date='20250101')
 
 tushare是一个老牌的数据服务提供商。起初完全免费，后来升级到pro版本后，开始使用积分制。用户反馈较多的可能也是这个积分制。它的积分体系比较复杂。一个注册的新用户，会有100积分，拥有获取股票日线的权限，但如果要获取证券列表，则需要120积分。权限粒度过细，会导致用户体验下降。尽管如此，它仍然是一个优秀的、可获得的数据源。
 
-## 聚宽本地数据
+## 3. 聚宽本地数据
 
 聚宽[^joinquant]是相对于tushare更贵的选择，它的价格在逐年攀升，免费试用期[^free_trial]也在逐年减少。当前应该是给用户提供了3个月的试用期[^free_trial]。一个合用的授权版本大概是6999元每年。不过它的数据质量和服务不错。
 
@@ -197,7 +206,7 @@ jq.logout()
 
 在聚宽中，上交所的代码是.XSHG，深交所的代码是.XSHE。我们可以按照这个规则来拼出股票和指数的规范代码。
 
-### 股票历史数据
+### 3.1. 股票历史数据
 
 我们可以使用get_price与get_bars两个API[^jq_diff][^pitfalls]来获得股票的历史数据。这里我们仅以get_bars为例来演示其用法：
 ```python
@@ -232,7 +241,7 @@ end_dt是指我们请求的数据，将截止到哪一天。如果不传入，�
 
 fq_ref_date告诉jqdatasdk如何处理复权。如果不提供这个参数，则返回的数据将不会复权。如果提供了这个日期，则在日期之前，相当于前复权，在日期之后，相当于后复权。这是与其它库不一样的地方。
 
-### 证券列表
+### 3.2. 证券列表
 在聚宽中，获取证券列表的函数是get_all_securities[^pitfalls]。
 ```python
 import jqdatasdk as jq
@@ -253,7 +262,7 @@ jq.logout()
 ```
 查询返回了5000多条记录。返回的记录包含了字段中文名称（如平安银行）、缩写简称（如PAYH）、上市日期、退市日期和证券类型（如stock, index, futures等）。返回的记录种类跟账户的权限相关。
 
-### 交易日历
+### 3.3. 交易日历
 我们通过get_trade_days这个API来获取指定时间范围内的交易日历，使用get_all_trade_days这个API来获取所有交易日历。
 ```python
 import jqdatasdk as jq
@@ -277,7 +286,66 @@ print("消耗的流量为:", spare - quota.get('spare'))
 jq.logout()
 ```
 
-## 3. yfinance
+## Baostock
+Baostock是一个免费、开源的证券数据平台，大概从2018年起开始对外提供服务。它可以提供到5分钟级的数据。Baostock使用上无需注册，但它有会话的概念，仍然需要登录。它只能提供历史数据。从官网来看，提供的数据种类较少。使用稳定性、响应速度等指标上能见到的报道不多。另外，我们也没找到它提供交易日历的相关函数。
+
+Baostock的证券代码使用前缀式标示法，即采用"证券交易所代码"加"证券简码"的方式来表示。其中，上交所代码为"sh"， 深交所为"sz"。举例来说，中国平安的代码就是"sz.000001"，沪指的代码就是"sh.000001"
+
+我们通过以下命令来安装：
+```
+$ pip install baostock
+```
+### 股票历史数据
+我们可以通过下面的代码来获取历史数据。
+
+```python
+import baostock as bs
+import pandas as pd
+
+# 登录baostock
+lg = bs.login()
+
+# 获取个股行情数据
+rs = bs.query_history_k_data_plus("sz.000001", "date,code,open,high,low,close,preclose,volume,amount,adjustflag,turn,tradestatus,pctChg,isST", start_date='2021-01-01', end_date='2021-12-31', frequency="d", adjustflag="3")
+print('query_history_k_data_plus respond error_code:' + rs.error_code)
+print('query_history_k_data_plus respond  error_msg:' + rs.error_msg)
+
+# 打印结果
+data_list = []
+while (rs.error_code == '0') & rs.next():
+    data_list.append(rs.get_row_data())
+result = pd.DataFrame(data_list, columns=rs.fields)
+print(result)
+
+# 登出baostock
+bs.logout()
+```
+### 证券列表
+我们可以通过下面的代码来获取证券列表。
+```python
+import baostock as bs
+
+# 登录baostock
+lg = bs.login()
+
+# 获取股票列表
+rs = bs.query_stock_industry()
+print('query_stock_industry respond error_code:' + rs.error_code)
+print('query_stock_industry respond  error_msg:' + rs.error_msg)
+
+# 打印结果
+data_list = []
+while (rs.error_code == '0') & rs.next():
+    data_list.append(rs.get_row_data())
+result = pd.DataFrame(data_list, columns=rs.fields)
+print(result)
+
+# 登出baostock
+bs.logout()
+
+```
+
+## 4. yfinance
 
 yfinance是一个Python库，它可以用来获取Yahoo Finance的数据，包括股票、ETF、指数、期货等多种金融产品的历史价格和相关信息。在使用yfinance之前，需要先安装该库，可以使用pip命令来安装：
 ```
@@ -317,3 +385,5 @@ print(msft_history)
 [^jq_diff]: 这两个API虽然都能用于获取数据，但在用法和返回结果上有微妙的区别。get_price可以额外获取涨跌停价、是否停牌、前一天收盘价信息等。在复权处理上，get_price默认使用前复权，get_bars使用不复权。get_price只使用起始时间来进行查询，而get_bars还可以指定要获取的记录条数。此外，还有一些差别，请学员在使用前，仔细阅读https://www.joinquant.com/help/api/doc?name=JQDatadoc&id=10278。
 
 [^pitfalls]: 此处有坑，请老师提醒学员可以加老师微信请教，没必要自己花太多时间去趟这些坑。我们开设这门课，一是要帮学员理清知识体系，二是要帮学员避开这些坑，减少时间浪费。这也是这门课的意义所在。
+
+[^baostock]: baostock的文档在 http://baostock.com

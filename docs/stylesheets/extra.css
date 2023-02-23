@@ -1,0 +1,32 @@
+.img-center-50 {
+    display: block;
+    margin: 0em auto;
+    width: 50%;
+}
+
+.img-center-75 {
+    display: block;
+    margin: 0em auto;
+    width: 75%;
+}
+
+.img-center-25 {
+    display: block;
+    margin: 0em auto;
+    width: 25%;
+}
+
+h2 {
+    margin: 1.5em 0 !important;
+    color: #000 !important;
+    font-weight: bold !important;
+}
+
+p {
+    color: #636363 !important;
+    margin: 1em 0 !important;
+}
+
+.md-grid {
+    max-width: 1024px;
+}

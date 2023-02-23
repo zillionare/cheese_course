@@ -37,6 +37,8 @@
       
     
     
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -200,11 +202,18 @@
   
   
   
+    
+
+  
+  
+  
     <li class="md-tabs__item">
-      <a href="primary/chap01/" class="md-tabs__link">
-        量化入门
+      <a href="courses/primary/chap01/" class="md-tabs__link">
+        量化课程
       </a>
     </li>
+  
+
   
 
       
@@ -213,11 +222,15 @@
   
 
 
-  <li class="md-tabs__item">
-    <a href="momentum" class="md-tabs__link">
-      动量策略
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="legends/tulipmania/" class="md-tabs__link">
+        量化金融史
+      </a>
+    </li>
+  
 
       
         
@@ -234,18 +247,6 @@
       </a>
     </li>
   
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="python_know_how" class="md-tabs__link">
-      我该怎么做
-    </a>
-  </li>
 
       
     </ul>
@@ -321,14 +322,44 @@
       
       
         <label class="md-nav__link" for="__nav_1">
-          量化入门
+          量化课程
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="量化入门" data-md-level="1">
+      <nav class="md-nav" aria-label="量化课程" data-md-level="1">
         <label class="md-nav__title" for="__nav_1">
           <span class="md-nav__icon md-icon"></span>
-          量化入门
+          量化课程
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_1" type="checkbox" id="__nav_1_1" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_1_1">
+          初级课程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="初级课程" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          初级课程
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -338,9 +369,16 @@
   
   
     <li class="md-nav__item">
-      <a href="primary/chap01/" class="md-nav__link">
+      <a href="courses/primary/chap01/" class="md-nav__link">
         如何获取股票数据
       </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -359,10 +397,63 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          量化金融史
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="量化金融史" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          量化金融史
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="momentum" class="md-nav__link">
-        动量策略
+      <a href="legends/tulipmania/" class="md-nav__link">
+        疯狂的郁金香
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="legends/voc/" class="md-nav__link">
+        东印度公司
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -419,21 +510,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="python_know_how" class="md-nav__link">
-        我该怎么做
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -461,15 +537,23 @@
 <p>量化芝识是大富翁团队打造的量化课程。</p>
 <h3 id="课程系列">课程系列<a class="headerlink" href="#课程系列" title="Permanent link">&para;</a></h3>
 <p>课程系列主要有：</p>
-<h4 id="量化基础知识">量化基础知识<a class="headerlink" href="#量化基础知识" title="Permanent link">&para;</a></h4>
+<h4 id="量化入门课程">量化入门课程<a class="headerlink" href="#量化入门课程" title="Permanent link">&para;</a></h4>
 <p>主要介绍量化必备的Python基础知识、获得数据、技术分析库、可视化、回测和实盘等相关知识，最后介绍一些入门级的量化策略，以加深基础知识理解。</p>
-<h4 id="动量策略">动量策略<a class="headerlink" href="#动量策略" title="Permanent link">&para;</a></h4>
-<p>我们将在动量策略部分，由浅入深讲解动量策略所需要的知识点。</p>
-<h4 id="每日python技巧">每日Python技巧<a class="headerlink" href="#每日python技巧" title="Permanent link">&para;</a></h4>
-<p>这是个一分钟Python小技巧，我们将介绍一句话能讲清的Python技巧，比如Python语法，某些一句话能实现重要功能的库</p>
-<h4 id="python-how-to">Python How To<a class="headerlink" href="#python-how-to" title="Permanent link">&para;</a></h4>
-<p>结合实例介绍Python领域里的重要、有趣和好玩的类库/开源项目。欢迎推荐和自荐！</p>
+<p>这是一系列课程，您可以在课程平台上跟学，也可通过<a href="https://zillionare.github.io/cheese_course/primary/chap01/">在线文档</a>自行学习。如果在课程平台上跟学，我们提供了实验环境（含数据）和一对一辅导。</p>
+<p>如果您在学习量化或者Python的过程中需要帮助，可以通过公众号联系我们：</p>
+<p><img alt="" src="https://images.jieyu.ai/images/wechat_mp.jpg" /></p>
+<h4 id="101个量化策略">101个量化策略<a class="headerlink" href="#101个量化策略" title="Permanent link">&para;</a></h4>
+<p>我们将在这个专栏下，为您精选101个量化策略进行讲解。</p>
+<h3 id="python系列">Python系列<a class="headerlink" href="#python系列" title="Permanent link">&para;</a></h3>
+<h4 id="每日一剂python">每日一剂Python<a class="headerlink" href="#每日一剂python" title="Permanent link">&para;</a></h4>
+<p>这是一分钟读完的Python小技巧系列。我们将介绍一句话就能讲清的那些Python技巧，便于您在日积月累的过程中增长Python知识。</p>
+<h4 id="人生苦短我用python">人生苦短，我用Python<a class="headerlink" href="#人生苦短我用python" title="Permanent link">&para;</a></h4>
+<p>也许你为实现某个功能，正在没日没夜地加班。你知道吗，很有可能这些功能，已经被别人通过Python实现了，只是你还不知道而已。</p>
+<p>人生苦短，我用Python。我们将在这个专栏里，通过几行代码，为你介绍一个个酷炫的Python库。</p>
+<h3 id="量化物语">量化物语<a class="headerlink" href="#量化物语" title="Permanent link">&para;</a></h3>
+<p>为您介绍量化史上的传奇人物和他们的故事。这个系列可以点<a href="https://zillionare.github.io/legends">这里</a>浏览。</p>
 <h3 id="电子书">电子书<a class="headerlink" href="#电子书" title="Permanent link">&para;</a></h3>
+<p>我们读了很多好书。希望与您分享。</p>
 <h4 id="量化电子书">量化电子书<a class="headerlink" href="#量化电子书" title="Permanent link">&para;</a></h4>
 <h4 id="python电子书">Python电子书<a class="headerlink" href="#python电子书" title="Permanent link">&para;</a></h4>
 <p><a href="assets/ebooks/python/python%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%E7%AC%AC3%E7%89%88.epub">Python基础教程第3版</a>
@@ -485,6 +569,8 @@ epub格式。
 <p class="admonition-title">Info</p>
 <p>请<a href="https://zillionare.github.com/cheese_course">点击这里</a>以获得更好的阅读体验！</p>
 </div>
+<h2 id="联系我们">联系我们<a class="headerlink" href="#联系我们" title="Permanent link">&para;</a></h2>
+<p><img alt="" src="https://images.jieyu.ai/images/wechat_mp.jpg" /></p>
 <!-- END INCLUDE -->
 
 
@@ -512,13 +598,13 @@ epub格式。
       
       
         
-        <a href="books/" class="md-footer__link md-footer__link--next" aria-label="下一页: Books" rel="next">
+        <a href="courses/primary/chap01/" class="md-footer__link md-footer__link--next" aria-label="下一页: 如何获取股票数据" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 下一页
               </span>
-              Books
+              如何获取股票数据
             </div>
           </div>
           <div class="md-footer__button md-icon">

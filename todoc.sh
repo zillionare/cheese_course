@@ -15,7 +15,8 @@ stem="${file%.*}"
 to="/apps/cheese_course/converted/$stem.docx"
 echo "from=$file, to=$to, in $from_dir"
 
+python toword.py remove_image_attr "$from_dir/$file"
 cd $from_dir
-pandoc -o $to -f markdown -t docx $file  --reference-doc=$cur/template.docx
+pandoc -o $to -f markdown -t docx /tmp/$file  --reference-doc=$cur/template.docx
 
 cd $cur

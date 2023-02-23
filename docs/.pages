@@ -1,6 +1,7 @@
 nav:
-    - 量化入门: primary
+    - 量化入门课: primary
+    - 量化金融史: legends
     - 每日一剂Python: python_tricks
     - 人生苦短，我用Python: python_know_how
-    - 量化物语: legends
     - 投资百科: investopedia
+    - 电子书: ebooks

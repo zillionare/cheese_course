@@ -1,4 +1,4 @@
 site
 **/.DS_Store
 nohup.out
-**/*.docx
+converted/*

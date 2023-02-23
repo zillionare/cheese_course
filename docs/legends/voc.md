@@ -4,7 +4,7 @@ title: 东印度公司
 
 黄浦江畔，外白渡桥边，有一幢拥有百余年历史的英国新古典主义风格建筑。这里曾是著名的浦江饭店，更因是新中国首家证券交易所的旧址而闻名，如今以中国证券博物馆身份成为网红打卡地。
 
-![](https://images.jieyu.ai/images/2023/02/voc/xshg_museum.jpg){: .img-center-75 }
+![](https://images.jieyu.ai/images/2023/02/voc/xshg_museum.jpeg){: .img-center-75 }
 <center><i style="font-size: small">中国证券博物馆</i></center>
 
 1990年底，上海证券交易所正式成立，这是建国以来内地的第一家证券交易所，当时只有8支股票上市，12.34亿元市值，是“全球最小”的证券市场。今天，中国A股上市已经突破5000家[^milestone1]，成为仅次于美国的第二大股票现货市场，为中国经济做出了重要贡献。

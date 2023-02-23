@@ -589,6 +589,27 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#证券列表" class="md-nav__link">
+    证券列表
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#交易日历" class="md-nav__link">
+    交易日历
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#通过数据解读a股" class="md-nav__link">
+    通过数据解读A股
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -657,7 +678,7 @@
   
     <li class="md-nav__item">
       <a href="../../../legends/tulipmania/" class="md-nav__link">
-        疯狂的郁金香
+        01 疯狂的郁金香
       </a>
     </li>
   
@@ -671,7 +692,7 @@
   
     <li class="md-nav__item">
       <a href="../../../legends/voc/" class="md-nav__link">
-        东印度公司
+        02 东印度公司
       </a>
     </li>
   
@@ -1202,14 +1223,151 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <p>在本课程中，大富翁将作为我们的配套实验环境来使用。因此，我们将为学员提供海量的数据以供使用。这包括从2005年以来的每个分钟线数据。随着我们课程的展开，您会逐渐熟悉它的使用，会发现它的接口十分简单易懂，尤其是当您写出了策略，需要进行回测时更是如此。</p>
 <p>大富翁是一个面向小型私募团队的量化框架，它由多个组件构成。在这一章，我们通过一个叫omicron<sup id="fnref:omicron"><a class="footnote-ref" href="#fn:omicron">13</a></sup>的组件来获取数据。</p>
 <p>在使用omicron之前，我们需要安装和配置。由于我们在这里介绍omicron的目的，是为了作为本课程的实验环境来使用，因此，我们就略过它的安装、配置和初始化。</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">await</span> <span class="n">omicron</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
 <h3 id="实时股票数据">实时股票数据<a class="headerlink" href="#实时股票数据" title="Permanent link">&para;</a></h3>
 <p>在omicron里，我们建议通过akshare来获取实时数据。因为实时数据的本地化存储似乎意义不大。</p>
 <h3 id="股票历史数据">股票历史数据<a class="headerlink" href="#股票历史数据" title="Permanent link">&para;</a></h3>
 <p>我们通过omicron.models.stock类来获取股票行情数据：
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">omicron</span>
+<span class="kn">from</span> <span class="nn">coretypes</span> <span class="kn">import</span> <span class="n">FrameType</span>
+<span class="kn">from</span> <span class="nn">omicron.models.stock</span> <span class="kn">import</span> <span class="n">Stock</span>
+
+<span class="k">await</span> <span class="n">omicron</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">bars</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Stock</span><span class="o">.</span><span class="n">get_bars</span><span class="p">(</span><span class="s2">&quot;000001.XSHE&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">DAY</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bars</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div></p>
+<p>第2行的<code>coretypes</code>是zillionare的另一个核心库，这个库提供了一些通用类型的定义。比如，其它框架中，象日线、30分钟线这样的周期，多使用'1d'， '30m'这样的字符串来表示，尽管这在某些时候是必要的，但多数情况下，作为一种良好的软件工程习惯，我们都应该避免使用字符串字面量。下面的代码显示了当前<code>coretypes</code>中提供的类型定义：
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">coretypes</span>
+
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">coretypes</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+您也可以在IDE里，提供文档提示来查看它提供的类型。zillionare的API文档在绝大多数情况下是精准和完善的，我们甚至通过工具对文档中的示例代码进行了测试。</p>
+<p>第3行导入了<code>Stock</code>类，一些跟股票相关的方法，比如获取行情数据等，被封装在这个类当中。</p>
+<p>接下来，我们对omicron进行初始化。这一步是必须的。最后，我们通过<code>Stock</code>类的<code>get_bars</code>方法来获取了平安银行最近10天的日线数据。注意，这次打印出来的结果，在格式上与其它库不太一样：<code>omicron</code>使用<code>numpy</code>，而不是<code>pandas</code>的<code>DataFrame</code>来作为内部的数据结构，这是出于性能和节省内存的考虑<sup id="fnref:numpy"><a class="footnote-ref" href="#fn:numpy">14</a></sup>。</p>
+<p>准确地说，我们使用的是<code>numpy</code>的structured aaray，即带结构的数组，这种数据结构提供了非常便利的访问特性，不少地方会优于<code>pandas.DataFrame</code>:</p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 运行下面的代码，显示bars数据类型有哪些字段组成：</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bars</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="c1"># 我们可以使用数组下标语法方便地访问其中的某一行：</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bars</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># -1这样的下标也是允许的：</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bars</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># 我们可以访问其中的一列：</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bars</span><span class="p">[</span><span class="s2">&quot;frame&quot;</span><span class="p">])</span>
+
+<span class="c1"># 我们可以这样访问某一行中的某一列。</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bars</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;frame&quot;</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+第11行代码中出现了<code>frame</code>这个字段。一般我们可以将其翻译为“帧”。许多框架在表示某条数据所对应的采样时间时，不是使用<code>date</code>，就是使用<code>time</code>这样的字段，但是<code>frame</code>可能是更合适的名字。因为除了<code>tick</code>级别的数据，所有的其它行情数据，它的时间都是以一个固定的单位递增的，是离散而不是连续的，因此它非常接近于”帧“的概念。</p>
+<h3 id="证券列表">证券列表<a class="headerlink" href="#证券列表" title="Permanent link">&para;</a></h3>
+<p>证券列表由模块<code>omicron.models.security</code>来提供。它的API与我们在前面看到的第三方有所不同，因为一般我们很少直接使用证券列表，更多地，我们是通过证券列表来查询一些信息，因<code>omicron</code>直接给出了这些查询。</p>
+<p>一般而言，查询往往会涉及多个条件，为了使用方便，<code>omicron</code>将查询设计为链式反应。我们首先通过<code>Security.select</code>来返回某一个<code>Query</code>对象，此后对这个对象的每一次过滤，都返回一个<code>Query</code>对象，直到你使用<code>eval</code>方法进行求值。
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">arrow</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">arrow</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+<span class="n">secs</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Security</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="o">.</span><span class="n">types</span><span class="p">([</span><span class="s2">&quot;stock&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">only_cyb</span><span class="p">()</span><span class="o">.</span><span class="n">exclude_st</span><span class="p">()</span><span class="o">.</span><span class="n">alias_like</span><span class="p">(</span><span class="s2">&quot;控股&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">secs</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:])</span>
+
+<span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">secs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="k">await</span> <span class="n">Security</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+证券列表并不是一成不变的，因此，在进行查询之前，我们首先要通过<code>select</code>来选择使用哪一天的证券列表。在回测中这是非常必要的，可以排除使用未来数据。<code>types</code>到<code>alias_like</code>都是过滤条件。<code>types</code>用来选择证券类型。这里<code>alias_like</code>是按证券的显示名来进行模糊匹配，比如上面的代码就要求找到所有名字中含”控股“的股票。</p>
+<p>最终，我们得到了大约4支股票，它们的信息如下：
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">arrow</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">arrow</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+<span class="n">secs</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Security</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="o">.</span><span class="n">types</span><span class="p">([</span><span class="s2">&quot;stock&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">only_cyb</span><span class="p">()</span><span class="o">.</span><span class="n">exclude_st</span><span class="p">()</span><span class="o">.</span><span class="n">alias_like</span><span class="p">(</span><span class="s2">&quot;控股&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">secs</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:])</span>
+
+<span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">secs</span><span class="p">:</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="k">await</span> <span class="n">Security</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+    <span class="k">break</span>
+</code></pre></div></td></tr></table></div></p>
+<h3 id="交易日历">交易日历<a class="headerlink" href="#交易日历" title="Permanent link">&para;</a></h3>
+<p>同样地，当我们使用<code>zillionare</code>时，我们几乎不需要关注交易日历本身的下载和同步，这些工作<code>zillionare</code>已经为我们做好了。我们需要关注的是，如何使用交易日历。这些功能都在<code>omicron.models.timeframe</code>模块里。这个模块的功能较多，也是其它框架不具备的功能。这里我们简单看几个用法，更多的我们放在后面的课程中，用到时补充说明。
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">from</span> <span class="nn">omicron</span> <span class="kn">import</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="c1"># 显示交易日历的起始时间和结束时间</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">day_frames</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tf</span><span class="o">.</span><span class="n">day_frames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># 假设今天是2023年2月23日，上一个已收盘的周线应该在哪天结束？</span>
+<span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">23</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">today</span><span class="p">,</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">WEEK</span><span class="p">))</span>
+
+<span class="c1"># 如果今天是2023年2月23日，那么前10个交易日应该是？</span>
+<span class="n">shifted</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">day_shift</span><span class="p">(</span><span class="n">today</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shifted</span><span class="p">)</span>
+
+<span class="c1"># 多数tf函数的返回值是一个整数，我们需要通过int2xxx来进行转换</span>
+<span class="n">converted</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">int2date</span><span class="p">(</span><span class="n">shifted</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">converted</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+上面的例子演示了<code>timeframe</code>的几个常用用法。您可能已经注意到，<code>timeframe</code>在内部使用了整数，而不是时间对象来存储时间。我们认为，这将在绝大多数情况下，节省您的时间。</p>
+<h3 id="通过数据解读a股">通过数据解读A股<a class="headerlink" href="#通过数据解读a股" title="Permanent link">&para;</a></h3>
 <div class="footnote">
 <hr />
 <ol>
@@ -1238,7 +1396,7 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 <p>最初聚宽提供了一年的免费试用，后来逐渐缩减到半年和三个月。三个月试用期对新人来说可能过短。此外，试用版还只能获取近一年的数据，这对实际的策略回测也是远远不够的。&#160;<a class="footnote-backref" href="#fnref:free_trial" title="Jump back to footnote 8 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:free_trial" title="Jump back to footnote 8 in the text">&#8617;</a></p>
 </li>
 <li id="fn:jqdata">
-<p>这里的本地数据是聚宽的提法，是相对于通过聚宽在线平台而言的。但是，我们在使用时，这些数据仍然是从聚宽服务器上实时获取的。因此，获取的速度取决于网络延时和聚宽服务器的处理能力。&#160;<a class="footnote-backref" href="#fnref:jqdata" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+<p>这里的<code>本地数据</code>是聚宽的提法，是相对于通过聚宽在线平台而言的。但是，我们在使用时，这些数据仍然是从聚宽服务器上实时获取的。因此，获取的速度取决于网络延时和聚宽服务器的处理能力。&#160;<a class="footnote-backref" href="#fnref:jqdata" title="Jump back to footnote 9 in the text">&#8617;</a></p>
 </li>
 <li id="fn:jq_diff">
 <p>这两个API虽然都能用于获取数据，但在用法和返回结果上有微妙的区别。get_price可以额外获取涨跌停价、是否停牌、前一天收盘价信息等。在复权处理上，get_price默认使用前复权，get_bars使用不复权。get_price只使用起始时间来进行查询，而get_bars还可以指定要获取的记录条数。此外，还有一些差别，请学员在使用前，仔细阅读https://www.joinquant.com/help/api/doc?name=JQDatadoc&amp;id=10278。&#160;<a class="footnote-backref" href="#fnref:jq_diff" title="Jump back to footnote 10 in the text">&#8617;</a></p>
@@ -1251,6 +1409,9 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
 </li>
 <li id="fn:omicron">
 <p>大富翁从构建之初就决定要能够支持中小型私募，因此，它采用了微服务设计，由多个组件构成。每个组件都使用一个希腊字母来表示。数据读取、时间运算等任务是框架中的核心任务，因此我们使用了omicron这个字母。而存放数据的服务器，我们使用了omega这个字母，它有样本空间的含义。&#160;<a class="footnote-backref" href="#fnref:omicron" title="Jump back to footnote 13 in the text">&#8617;</a></p>
+</li>
+<li id="fn:numpy">
+<p>如果您对一些深度学习框架有所了解，可能知道它们同样选择<code>numpy</code>，而不是<code>pandas.DataFrame</code>来作为内部数据结构。&#160;<a class="footnote-backref" href="#fnref:numpy" title="Jump back to footnote 14 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -1280,13 +1441,13 @@ akshare是免费数据，也无须注册账号。所以我们现在就可以使�
       
       
         
-        <a href="../../../legends/tulipmania/" class="md-footer__link md-footer__link--next" aria-label="下一页: 疯狂的郁金香" rel="next">
+        <a href="../../../legends/tulipmania/" class="md-footer__link md-footer__link--next" aria-label="下一页: 01 疯狂的郁金香" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 下一页
               </span>
-              疯狂的郁金香
+              01 疯狂的郁金香
             </div>
           </div>
           <div class="md-footer__button md-icon">

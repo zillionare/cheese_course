@@ -376,11 +376,6 @@ Zillionare量化框架是目前适合A股市场的三个仅有的本地化量化
 
 在使用omicron之前，我们需要安装和配置。由于我们在这里介绍omicron的目的，是为了作为本课程的实验环境来使用，因此，我们就略过它的安装、配置和初始化。
 
-```python
-await omicron.init()
-
-```
-
 ## 实时股票数据
 
 在omicron里，我们建议通过akshare来获取实时数据。因为实时数据的本地化存储似乎意义不大。
@@ -389,7 +384,105 @@ await omicron.init()
 
 我们通过omicron.models.stock类来获取股票行情数据：
 ```python
+import omicron
+from coretypes import FrameType
+from omicron.models.stock import Stock
+
+await omicron.init()
+
+bars = await Stock.get_bars("000001.XSHE", 10, FrameType.DAY)
+print(bars)
 ```
+
+第2行的`coretypes`是zillionare的另一个核心库，这个库提供了一些通用类型的定义。比如，其它框架中，象日线、30分钟线这样的周期，多使用'1d'， '30m'这样的字符串来表示，尽管这在某些时候是必要的，但多数情况下，作为一种良好的软件工程习惯，我们都应该避免使用字符串字面量。下面的代码显示了当前`coretypes`中提供的类型定义：
+```python
+import coretypes
+
+for item in dir(coretypes):
+    if str(item).startswith("__"):
+        continue
+    print(item)
+```
+您也可以在IDE里，提供文档提示来查看它提供的类型。zillionare的API文档在绝大多数情况下是精准和完善的，我们甚至通过工具对文档中的示例代码进行了测试。
+
+第3行导入了`Stock`类，一些跟股票相关的方法，比如获取行情数据等，被封装在这个类当中。
+
+接下来，我们对omicron进行初始化。这一步是必须的。最后，我们通过`Stock`类的`get_bars`方法来获取了平安银行最近10天的日线数据。注意，这次打印出来的结果，在格式上与其它库不太一样：`omicron`使用`numpy`，而不是`pandas`的`DataFrame`来作为内部的数据结构，这是出于性能和节省内存的考虑[^numpy]。
+
+准确地说，我们使用的是`numpy`的structured aaray，即带结构的数组，这种数据结构提供了非常便利的访问特性，不少地方会优于`pandas.DataFrame`:
+
+```python
+# 运行下面的代码，显示bars数据类型有哪些字段组成：
+print(bars.dtype)
+
+# 我们可以使用数组下标语法方便地访问其中的某一行：
+print(bars[0])
+
+# -1这样的下标也是允许的：
+print(bars[-1])
+
+# 我们可以访问其中的一列：
+print(bars["frame"])
+
+# 我们可以这样访问某一行中的某一列。
+print(bars[-1]["frame"])
+```
+第11行代码中出现了`frame`这个字段。一般我们可以将其翻译为“帧”。许多框架在表示某条数据所对应的采样时间时，不是使用`date`，就是使用`time`这样的字段，但是`frame`可能是更合适的名字。因为除了`tick`级别的数据，所有的其它行情数据，它的时间都是以一个固定的单位递增的，是离散而不是连续的，因此它非常接近于”帧“的概念。
+
+## 证券列表
+证券列表由模块`omicron.models.security`来提供。它的API与我们在前面看到的第三方有所不同，因为一般我们很少直接使用证券列表，更多地，我们是通过证券列表来查询一些信息，因`omicron`直接给出了这些查询。
+
+一般而言，查询往往会涉及多个条件，为了使用方便，`omicron`将查询设计为链式反应。我们首先通过`Security.select`来返回某一个`Query`对象，此后对这个对象的每一次过滤，都返回一个`Query`对象，直到你使用`eval`方法进行求值。
+```python
+import arrow
+
+now = arrow.now().date()
+secs = await Security.select(now).types(["stock"]).only_cyb().exclude_st().alias_like("控股").eval()
+print(secs[-10:])
+
+for code in secs:
+    print(await Security.info(code))
+```
+证券列表并不是一成不变的，因此，在进行查询之前，我们首先要通过`select`来选择使用哪一天的证券列表。在回测中这是非常必要的，可以排除使用未来数据。`types`到`alias_like`都是过滤条件。`types`用来选择证券类型。这里`alias_like`是按证券的显示名来进行模糊匹配，比如上面的代码就要求找到所有名字中含”控股“的股票。
+
+最终，我们得到了大约4支股票，它们的信息如下：
+```python
+import arrow
+from pprint import pprint
+
+now = arrow.now().date()
+secs = await Security.select(now).types(["stock"]).only_cyb().exclude_st().alias_like("控股").eval()
+print(secs[-10:])
+
+for code in secs:
+    pprint(await Security.info(code))
+    break
+```
+## 交易日历
+同样地，当我们使用`zillionare`时，我们几乎不需要关注交易日历本身的下载和同步，这些工作`zillionare`已经为我们做好了。我们需要关注的是，如何使用交易日历。这些功能都在`omicron.models.timeframe`模块里。这个模块的功能较多，也是其它框架不具备的功能。这里我们简单看几个用法，更多的我们放在后面的课程中，用到时补充说明。
+```python
+from omicron import tf
+import datetime
+
+# 显示交易日历的起始时间和结束时间
+print(tf.day_frames[0], tf.day_frames[-1])
+
+# 假设今天是2023年2月23日，上一个已收盘的周线应该在哪天结束？
+today = datetime.date(2023, 2, 23)
+print(tf.floor(today, FrameType.WEEK))
+
+# 如果今天是2023年2月23日，那么前10个交易日应该是？
+shifted = tf.day_shift(today, -10)
+print(shifted)
+
+# 多数tf函数的返回值是一个整数，我们需要通过int2xxx来进行转换
+converted = tf.int2date(shifted)
+print(converted)
+```
+上面的例子演示了`timeframe`的几个常用用法。您可能已经注意到，`timeframe`在内部使用了整数，而不是时间对象来存储时间。我们认为，这将在绝大多数情况下，节省您的时间。
+
+## 通过数据解读A股
+
 
 [^pytdx]: pytdx是破解通达信通讯协议后，提供的一个数据获取的API。大约在2020年前后，其开发者归档了这个项目，不再持续开发。pytdx在早期为量化开发者提供了非常好的练习环境。
 
@@ -406,7 +499,7 @@ await omicron.init()
 [^joinquant]: 聚宽的主页是 https://www.joinquant.com/。作为聚宽数据的使用者，对他们的服务有较深的印象。他们的客服会及时响应用户提出的数据相关问题，不管是晚上还是周末。
 [^free_trial]: 最初聚宽提供了一年的免费试用，后来逐渐缩减到半年和三个月。三个月试用期对新人来说可能过短。此外，试用版还只能获取近一年的数据，这对实际的策略回测也是远远不够的。
 
-[^jqdata]: 这里的本地数据是聚宽的提法，是相对于通过聚宽在线平台而言的。但是，我们在使用时，这些数据仍然是从聚宽服务器上实时获取的。因此，获取的速度取决于网络延时和聚宽服务器的处理能力。
+[^jqdata]: 这里的`本地数据`是聚宽的提法，是相对于通过聚宽在线平台而言的。但是，我们在使用时，这些数据仍然是从聚宽服务器上实时获取的。因此，获取的速度取决于网络延时和聚宽服务器的处理能力。
 
 [^jq_diff]: 这两个API虽然都能用于获取数据，但在用法和返回结果上有微妙的区别。get_price可以额外获取涨跌停价、是否停牌、前一天收盘价信息等。在复权处理上，get_price默认使用前复权，get_bars使用不复权。get_price只使用起始时间来进行查询，而get_bars还可以指定要获取的记录条数。此外，还有一些差别，请学员在使用前，仔细阅读https://www.joinquant.com/help/api/doc?name=JQDatadoc&id=10278。
 
@@ -415,3 +508,5 @@ await omicron.init()
 [^baostock]: baostock的文档在 http://baostock.com
 
 [^omicron]:  大富翁从构建之初就决定要能够支持中小型私募，因此，它采用了微服务设计，由多个组件构成。每个组件都使用一个希腊字母来表示。数据读取、时间运算等任务是框架中的核心任务，因此我们使用了omicron这个字母。而存放数据的服务器，我们使用了omega这个字母，它有样本空间的含义。
+
+[^numpy]: 如果您对一些深度学习框架有所了解，可能知道它们同样选择`numpy`，而不是`pandas.DataFrame`来作为内部数据结构。

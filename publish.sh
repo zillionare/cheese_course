@@ -1,4 +1,4 @@
-for file in `ls docs/courses/primary`;do echo $file; notedown --match=python docs/primary/$file > docs/code/primary/${file%.*}.ipynb; done
+for file in `ls docs/courses/primary`;do echo $file; notedown --match=python docs/primary/$file > docs/code/courses/primary/${file%.*}.ipynb; done
 
 git add .
 git commit -m "docs"

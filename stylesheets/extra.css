@@ -16,7 +16,19 @@
     width: 25%;
 }
 
+h3 {
+    margin: 1em 0 !important;
+    color: #000 !important;
+    font-weight: bold !important;
+}
+
 h2 {
+    margin: 1.2em 0 !important;
+    color: #000 !important;
+    font-weight: bold !important;
+}
+
+h1 {
     margin: 1.5em 0 !important;
     color: #000 !important;
     font-weight: bold !important;
@@ -25,6 +37,7 @@ h2 {
 p {
     color: #636363 !important;
     margin: 1em 0 !important;
+    font-size: medium;
 }
 
 .md-grid {

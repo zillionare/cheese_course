@@ -49,8 +49,8 @@ markdown_extensions:
   - pymdownx.details
   - admonition
   - toc:
-      toc_depth: 5
-      baselevel: 2
+      baselevel: 1
+      toc_depth: '2-4'
       permalink: true
       slugify: !!python/name:pymdownx.slugs.uslugify
   - meta

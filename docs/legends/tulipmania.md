@@ -92,3 +92,7 @@ title: 疯狂的郁金香
 期权交易一旦诞生，一个问题也就随之而来，**农夫给中间人支付的权利金，应该怎么定价呢？**
 
 这个看似简单的问题，延续了几个世纪都没能得到科学的回答。直到1973年，一项可以媲美牛顿运动定律的公式被发现，才算得到了完美的回答。是谁揭示了这个秘密，又将得到什么样的殊荣呢？我们将在后面的文章中进行解答。
+
+如果您喜欢这本书，可以在点击[这里](https://union-click.jd.com/jdc?e=618%7Cpc%7C&p=JF8BANcJK1olXgAAV1dfAE8XBV8IGloQWQcCVF5UDkIeBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAmoMGlsVXQ8EXVdYFxJSXzI4YCBQJnpgKVo4axdoW2hoTVsLPXxeNFJROEonA24JGV4SWgAGV25tCEwnQgEIGlkTXgAKUW5cOEsQBWkPHVkVVQYBUFttD0seMzZbSwtWA1kyZG5eOEwXCnsOaRpHSQBwZG5dOEgnA2YOGV4XVAcESF5cCUsSH28PHV0SWwQCU11dD0MnAW4JH1IlbQ)购买。
+
+![](https://images.jieyu.ai//images/2023/03/s27351873.jpg){: .img-center-50}

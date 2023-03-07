@@ -46,3 +46,7 @@ p {
 .md-grid {
     max-width: 1024px;
 }
+
+li {
+    font-size: small !important;
+}

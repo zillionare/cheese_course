@@ -1,3 +1,9 @@
+.img-center-25 {
+    display: block;
+    margin: 0em auto;
+    width: 25%;
+}
+
 .img-center-50 {
     display: block;
     margin: 0em auto;
@@ -10,10 +16,9 @@
     width: 75%;
 }
 
-.img-center-25 {
+.img-center {
     display: block;
     margin: 0em auto;
-    width: 25%;
 }
 
 h3 {

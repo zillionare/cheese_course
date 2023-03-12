@@ -1,58 +1,93 @@
-# 量化芝识
 
-量化芝识是大富翁团队打造的量化课程。
 
 ## 课程系列
 
-课程系列主要有：
+目前正在进行的课程有《Python量化金融实战》。
 
-### 量化入门课程
-主要介绍量化必备的Python基础知识、获得数据、技术分析库、可视化、回测和实盘等相关知识，最后介绍一些入门级的量化策略，以加深基础知识理解。
+!!! Info "量化课程"
+    这门课主要介绍量化必备的Python基础知识、获得数据、技术分析库、可视化、回测和实盘等相关知识，为大家独立开展量化研究打下坚实的基础。这门课也将介绍一些有潜力的量化策略，以加深基础知识理解。
 
-这是一系列课程，您可以在课程平台上跟学，也可通过[在线文档](https://zillionare.github.io/cheese_course/primary/chap01/)自行学习。如果在课程平台上跟学，我们提供了实验环境（含数据）和一对一辅导。
-
-如果您在学习量化或者Python的过程中需要帮助，可以通过公众号联系我们：
-
-![](https://images.jieyu.ai/images/wechat_mp.jpg)
-
-### 101个量化策略
-我们将在这个专栏下，为您精选101个量化策略进行讲解。
-
+    这是一系列课程，您可以在课程平台上跟学，也可通过[在线文档](https://zillionare.github.io/cheese_course/primary/chap01/)自行学习。如果在课程平台上跟学，我们提供了实验环境（含数据）和一对一辅导。实验环境入口在[这里](https://coursea.jieyu.ai/hub)
 ## Python系列
-### 每日一剂Python
-这是一分钟读完的Python小技巧系列。我们将介绍一句话就能讲清的那些Python技巧，便于您在日积月累的过程中增长Python知识。
+!!! Info "Python能做大项目"
+    这是目前市面上比较稀缺的一本书，主要是介绍使用Python做大型复杂应用程序时，应该用到什么样的工具、技术和流程来进行项目管理。文章写得深入浅出，引经据典多，有一定的可读性。
 
-### 人生苦短，我用Python
+    纸质书将于2023年出版。
 
-也许你为实现某个功能，正在没日没夜地加班。你知道吗，很有可能这些功能，已经被别人通过Python实现了，只是你还不知道而已。
+!!! Info "每日一剂Python"
+    这是一分钟读完的Python小技巧系列。我们将介绍一句话就能讲清的那些Python技巧，便于您在日积月累的过程中增长Python知识。
 
-人生苦短，我用Python。我们将在这个专栏里，通过几行代码，为你介绍一个个酷炫的Python库。
+    暂时还没来得及日更。
 
-## 量化物语
+!!!Info "人生苦短，我用Python"
+    也许你为实现某个功能，正在没日没夜地加班。你知道吗，很有可能这些功能，已经被别人通过Python实现了，只是你还不知道而已。
 
-为您介绍量化史上的传奇人物和他们的故事。这个系列可以点[这里](https://zillionare.github.io/legends)浏览。
-## 电子书
-我们读了很多好书。希望与您分享。
-### 量化电子书
+    人生苦短，我用Python。我们将在这个专栏里，通过几行代码，为你介绍一个个酷炫的Python库。
 
-### Python电子书
-[Python基础教程第3版](docs/assets/ebooks/python/python基础教程第3版.epub)
-epub格式。
-作者：Magnus Lie Hetland
-译者：袁国忠
-
-这是一本长达1051页的巨著。首先从Python的安装开始，随后介绍了Python的基础知识和基本概念，包括列表、元组、字符串、字典以及各种语句；然后循序渐进地介绍了一些相对高级的主题，包括抽象、异常、魔法方法、属性、迭代器；此后探讨了如何将Python与数据库、网络、C语言等工具结合使用，从而发挥出Python的强大功能，同时介绍了Python程序测试、打包、发布等知识；最后，作者结合前面讲述的内容，按照实际项目开发的步骤向读者介绍了10个具有实际意义的Python项目的开发过程。 
-
-作者Magnus Lie Hetland是挪威科技大学副教授，教授算法；黑客，喜欢钻研新锐编程语言，是Python语言的坚定支持者。写过很多Python方面的书和在线教程，比如深受读者欢迎的网上教程“Instant Python”。表演专业的业余爱好者，从1985年首次登台至今，已经参演数十部话剧。
+    这个系列也暂时还没来得及日更。
 
 
-## 量化资源网站
-## 食用指南
-我们的文章中的示例，多数通过嵌套在其中的notebook插件来运行。少数需要独立工程的，都存放在docs/code目录下。
+## 用户注册
+如果您想试用我们的大富翁框架，或者想报名参加我们的《Python量化金融实战》，请扫码或者直接点击链接报名：
 
-!!! Info
-    请[点击这里](https://zillionare.github.com/cheese_course)以获得更好的阅读体验！
+<style>
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding in columns */
+.row {
+    margin: 0 auto;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+</style>
+<div class="row">
+    <div class="column">
+        <div class="card">
+                <img src="assets/course/primary/course_enroll.jpeg" style="width:90%">
+                <div class="container" style="flex-direction:column; align-content: center">
+                    <a href="https://www.wjx.top/vm/YtlMJMO.aspx"><b>试用量化环境</b></a>
+                </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <img src="assets/course/primary/cheese.jpeg" style="width:90%">
+            <div class="container">
+                <a href="https://www.wjx.top/vm/YtlMJMO.aspx"><b>加微信</b></a>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="card">
+            <img src="assets/course/primary/zillionare.jpeg" style="width:90%">
+            <div class="container">
+                <a href="https://www.wjx.top/vm/YtlMJMO.aspx"><b>报名学习</b></a>
+            </div>
+        </div>
+    </div>
+</div> 
+
 
 # 联系我们
 
+我们的公众号是：
 ![](https://images.jieyu.ai/images/wechat_mp.jpg)
+
